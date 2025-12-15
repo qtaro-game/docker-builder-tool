@@ -6,6 +6,7 @@ GUI 操作で生成するための **Electron 製デスクトップツール** �
 複数のミドルウェア（Web / DB / Cache / 管理ツール等）を選択し、  
 docker-compose.yml を組み立てる用途を想定しています。
 
+ChatGPTでのみで作成しました。
 ---
 
 ## 主な機能
@@ -71,3 +72,4 @@ npm start
 ### Generated Result
 ![Generated Result](docs/screenshots/generated.png)
 ![Generated Result](https://raw.githubusercontent.com/qtaro-game/docker-builder-tool/main/docs/screenshots/generated.png)
+
