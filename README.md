@@ -35,28 +35,17 @@ docker-compose.yml を組み立てる用途を想定しています。
 ---
 
 ## ディレクトリ構成（抜粋）
-
-├─ app/
-│ ├─ index.html
-│ └─ src/
-│ ├─ renderer/
-│ │ ├─ core.js
-│ │ ├─ generate.js
-│ │ ├─ modules_ui.js
-│ │ ├─ settings.js
-│ │ └─ ui.js
-│ ├─ modules/
-│ │ ├─ nginx.js
-│ │ ├─ mysql.js
-│ │ ├─ redis.js
-│ │ └─ ...
-│ ├─ img/
-│ └─ style.css
-├─ main.js
-├─ preload.js
-├─ package.json
-└─ settings.json
-
+app/
+├ index.html
+├ src/
+│ ├ renderer/
+│ ├ modules/
+│ └ img/
+├ style.css
+main.js
+preload.js
+package.json
+settings.json
 
 
 ## 起動方法（開発用）
@@ -71,9 +60,14 @@ npm start
 
 ### Module Selection
 ![Module Selection](docs/screenshots/main.png)
+![Module Selection](https://raw.githubusercontent.com/qtaro-game/docker-builder-tool/main/docs/screenshots/main.png)
+
 
 ### Configuration Input
 ![Configuration Input](docs/screenshots/configuration.png)
+![Configuration Input](https://raw.githubusercontent.com/qtaro-game/docker-builder-tool/main/docs/screenshots/configuration.png)
+
 
 ### Generated Result
 ![Generated Result](docs/screenshots/generated.png)
+![Generated Result](https://raw.githubusercontent.com/qtaro-game/docker-builder-tool/main/docs/screenshots/generated.png)
