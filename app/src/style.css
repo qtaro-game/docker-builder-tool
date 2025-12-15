@@ -1,0 +1,1110 @@
+/* =========================================
+   目次
+   1) ベース / 共通
+   2) レイアウト（ヘッダー/メイン）
+   3) タブ
+   4) カード
+   5) モジュール一覧
+   6) 構成入力（共通フォーム/UI）
+   7) ボタン（共通）
+   8) 生成結果テキストエリア
+   9) モーダル（共通：設定/バージョン情報）
+  10) 設定画面（専用：2ペイン＋フォーム）
+  11) ダークモード（全体）
+  12) ダークモード（設定画面専用）
+   ========================================= */
+
+
+/* =========================================
+   1) ベース / 共通
+   ========================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: #f5f5f7;
+  color: #222;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* 入力共通（アプリ全体） */
+input[type="text"],
+input[type="number"],
+textarea {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* =========================================
+   2) レイアウト（ヘッダー/メイン）
+   ========================================= */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.app-main {
+  width: 1400px;
+  max-width: 1400px;
+  margin: 12px auto 32px;
+  padding: 0 16px;
+}
+
+/* テーマ切り替えボタン（アプリ右上） */
+.theme-toggle-button {
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  padding: 4px 10px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   3) タブ
+   ========================================= */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 8px;
+}
+
+.tab-button {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #666;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button.active {
+  color: #000;
+  font-weight: 600;
+  border-bottom-color: #0078d7;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+
+/* =========================================
+   4) カード
+   ========================================= */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.note {
+  margin: 2px 0 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+
+/* =========================================
+   5) モジュール一覧
+   ========================================= */
+.module-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* ヘッダーは邪魔なので非表示 */
+.module-table thead {
+  display: none;
+}
+
+.module-table th,
+.module-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+/* 左の空列（選択列） */
+.module-table th.check-col,
+.module-select-cell {
+  width: 0;
+  padding: 0;
+  border: none;
+  display: none;
+}
+
+/* カテゴリ行 */
+.module-category-row td {
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* 通常の行 */
+.module-row {
+  cursor: pointer;
+}
+
+.module-row:hover {
+  background-color: #f9fafb;
+}
+
+/* 選択中行 */
+.module-row.is-selected {
+  background-color: #fffbeb;
+}
+
+.module-label-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.module-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.module-row.is-selected .module-icon-wrapper {
+  border-color: #fbbf24;
+  background-color: #fffbeb;
+}
+
+.module-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.module-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.module-name {
+  font-weight: 600;
+}
+
+.module-desc {
+  font-size: 13px;
+  color: #555;
+  word-break: break-all;
+}
+
+/* デフォルトアイコン（フォールバック） */
+.module-icon-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background-color: #fef3c7;
+  border: 1px solid #fbbf24;
+  font-weight: 600;
+  font-size: 18px;
+  color: #92400e;
+}
+
+
+/* =========================================
+   6) 構成入力（共通フォーム/UI）
+   ※ 設定画面ではこのセクションの class を使わない前提
+   ========================================= */
+.sticky-executor {
+  position: sticky;
+  top: 52px;
+  z-index: 10;
+  background-color: #ffffff;
+}
+
+/* ★ ボタン+メッセージを左寄せレイアウトに変更 */
+.executor-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.executor-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.generate-message {
+  min-height: 1.6em;
+  font-size: 13px;
+}
+
+/* 仕切り線（初回は非表示） */
+.generate-separator {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 10px;
+  padding-top: 4px;
+  display: none;
+}
+
+.generate-separator.active {
+  display: block;
+}
+
+/* 1行のフィールドレイアウト（※構成入力など共通UI向け） */
+.field-row {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.field-row span {
+  font-size: 13px;
+}
+
+.field-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* フォルダ参照ボタン（dataDir / dataPath 用） */
+.btn-browse {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.btn-browse:hover {
+  background-color: #f2f2f2;
+  border-color: #aaa;
+}
+
+/* ポート重複ハイライト */
+.field-row input.port-conflict {
+  border-color: #c43b3b;
+  background-color: #fff5f5;
+}
+
+/* プロトコルトグル */
+.protocol-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  user-select: none;
+}
+
+.protocol-toggle-checkbox {
+  display: none;
+}
+
+.protocol-toggle-slider {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  border-radius: 999px;
+  background-color: #ddd;
+  transition: background-color 0.2s ease;
+}
+
+.protocol-toggle-slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.protocol-toggle-checkbox:checked + .protocol-toggle-slider {
+  background-color: #3b82f6;
+}
+
+.protocol-toggle-checkbox:checked + .protocol-toggle-slider::before {
+  transform: translateX(20px);
+}
+
+.protocol-toggle-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Python フレームワーク切替（Django / Flask）用 */
+.framework-toggle-checkbox {
+  display: none;
+}
+
+.framework-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  user-select: none;
+}
+
+.framework-toggle .protocol-toggle-slider {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  border-radius: 999px;
+  background-color: #ddd;
+  transition: background-color 0.2s ease;
+}
+
+.framework-toggle .protocol-toggle-slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.framework-toggle-checkbox:checked + .protocol-toggle-slider {
+  background-color: #3b82f6;
+}
+
+.framework-toggle-checkbox:checked + .protocol-toggle-slider::before {
+  transform: translateX(20px);
+}
+
+.framework-toggle .protocol-toggle-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+
+/* =========================================
+   7) ボタン（共通）
+   ========================================= */
+button {
+  font-family: inherit;
+}
+
+.button-row {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.primary-button {
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #0078d7;
+  background-color: #0078d7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background-color: #0060aa;
+  border-color: #0060aa;
+}
+
+.button-row button {
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.button-row button:hover {
+  background-color: #f2f2f2;
+  border-color: #aaa;
+}
+
+.download-button {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.download-button:hover {
+  background-color: rgba(34, 197, 94, 0.14);
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.copy-button {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.copy-button:hover {
+  background-color: rgba(59, 130, 246, 0.14);
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.danger-button {
+  border-color: #c43b3b;
+  color: #c43b3b;
+}
+
+.danger-button:hover {
+  background-color: rgba(244, 63, 94, 0.14);
+  border-color: #e11d48;
+  color: #e11d48;
+}
+
+/* メッセージ色 */
+#portMessage.port-message-error {
+  color: #c43b3b;
+  font-weight: 600;
+}
+
+#portMessage.port-message-warning {
+  color: #b46915;
+  font-weight: 600;
+}
+
+#portMessage.port-message-ok {
+  color: #2e7c31;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   8) 生成結果テキストエリア
+   ========================================= */
+#composeOutput,
+#dockerfileOutput {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  resize: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* 生成結果タブ：docker-compose / Dockerfile を「上下 2 ペイン」で常時見えるようにする */
+#tab-output.tab-content.active {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+}
+
+#tab-output .output-split {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+#tab-output .output-split .card {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#tab-output .output-split .card .button-row {
+  margin-top: 10px;
+}
+
+#tab-output .output-split .card textarea {
+  flex: 1;
+  min-height: 0;
+}
+
+
+/* =========================================
+   9) モーダル（共通：設定 / バージョン情報）
+   ========================================= */
+.app-dialog {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0;
+  width: 500px;        /* 中くらい：横 500px */
+  min-height: 500px;   /* 縦 500〜600px の下限 */
+  max-height: 600px;   /* 縦 500〜600px の上限 */
+}
+
+.app-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 18px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.dialog-title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dialog-description {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.dialog-body {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.dialog-footer button {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dialog-footer button:hover {
+  background-color: #f2f2f2;
+  border-color: #aaa;
+}
+
+
+/* =========================================
+  10) 設定画面（専用：2ペイン＋フォーム）
+  ※ 設定画面に関する class は settings-* に閉じる
+  ========================================= */
+
+/* [設定ウィンドウ全体のサイズ]
+   ここを変えると「設定モーダルの横幅・縦幅」が変わる */
+.settings-dialog {
+  width: 1050px;      /* ← 横幅：ここを増やす */
+  max-width: 90vw;    /* ← 画面に対する最大幅 */
+  height: 520px;      /* ← 縦幅：必要なら */
+  max-height: 85vh;
+}
+
+/* 2ペインレイアウト 左側 */
+.settings-layout {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  height: 100%;
+}
+
+/* 左ナビ */
+.settings-nav {
+  border-right: 1px solid #ddd;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ナビ項目 */
+.settings-nav-item {
+  text-align: left;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* 選択中ナビ項目 */
+.settings-nav-item.active {
+  background-color: #e8f0ff;
+  font-weight: 600;
+}
+
+/* 右コンテンツ */
+.settings-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 設定セクション */
+.settings-section {
+  display: none;
+  flex: 1;
+}
+
+/* アクティブセクション */
+.settings-section.active {
+  display: block;
+}
+
+/* テーマ選択（設定画面：テーマ専用。ここだけに効かせる） */
+.settings-theme-select {
+  width: 220px;     /* 好みで 200〜260px */
+  max-width: 100%;
+}
+
+/* [設定フォーム1行のレイアウト]
+   左=ラベル幅、右=入力欄幅。入力欄を長くしたい時はここ。 */
+.settings-field-row {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr); /* ← 左(ラベル) / 右(入力欄) の比率 */
+  column-gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* ラベル部分 */
+.settings-field-row > span {
+  font-size: 13px;
+}
+
+/* 入力欄部分（パスピッカー等を縦積みで置くためのラッパ） */
+.settings-field-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* フッター（保存/キャンセル） */
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* [パス入力 UI]
+   左=「...」ボタン幅、右=入力欄。詰まる/広げたい時はここ。 */
+.path-picker {
+  display: grid;
+  grid-template-columns: 34px 450px; /* ← 左(…ボタン) / 右(入力欄) */
+  gap: 8px;
+  align-items: center;
+}
+
+/* パス入力欄 */
+.path-picker input[type="text"] {
+  width: 100%;
+  min-width: 0; /* ← grid/flex でのハマり防止 */
+}
+
+/* 「...」ボタン */
+.browse-btn {
+  width: 34px;
+  height: 28px;
+  padding: 0;
+  line-height: 1;
+}
+
+/* フィールドヒント（エラーメッセージ等） */
+.field-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* エラーメッセージ用 */
+.field-hint.error {
+  color: #c00;
+}
+
+
+/* =========================================
+  11) ダークモード（全体）
+  ========================================= */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background-color: #121212;
+  color: #eee;
+}
+
+html[data-theme="dark"] .app-header {
+  background-color: #1e1e1e;
+  border-bottom-color: #333;
+}
+
+html[data-theme="dark"] .theme-toggle-button {
+  background-color: #333;
+  border-color: #555;
+  color: #eee;
+}
+
+html[data-theme="dark"] .tabs {
+  border-bottom-color: #333;
+}
+
+html[data-theme="dark"] .tab-button {
+  color: #aaa;
+}
+
+html[data-theme="dark"] .tab-button.active {
+  color: #fff;
+  border-bottom-color: #4aa3ff;
+}
+
+html[data-theme="dark"] .card {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .note {
+  color: #aaa;
+}
+
+/* ダークモード：モジュール説明文は明るめに */
+html[data-theme="dark"] .module-desc {
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] .module-category-row td {
+  background-color: #1e3a8a;
+  color: #e5e7eb;
+  border-left: 4px solid #3b82f6;
+}
+
+html[data-theme="dark"] .module-row:hover {
+  background-color: #1f2933;
+}
+
+html[data-theme="dark"] .module-row.is-selected {
+  background-color: #1f2933;
+}
+
+html[data-theme="dark"] .module-row.is-selected .module-icon-wrapper {
+  background-color: #1f2933;
+  border-color: #facc15;
+}
+
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] textarea {
+  background-color: #222;
+  border-color: #555;
+  color: #eee;
+}
+
+html[data-theme="dark"] .field-row input.port-conflict {
+  border-color: #e11d48;
+  background-color: #3b0a0a;
+}
+
+html[data-theme="dark"] .button-row button {
+  background-color: #333;
+  border-color: #555;
+  color: #eee;
+}
+
+html[data-theme="dark"] .button-row button:hover {
+  background-color: #444;
+  border-color: #777;
+}
+
+html[data-theme="dark"] .btn-browse {
+  background-color: #333;
+  border-color: #555;
+  color: #eee;
+}
+
+html[data-theme="dark"] .btn-browse:hover {
+  background-color: #444;
+  border-color: #777;
+}
+
+html[data-theme="dark"] .primary-button {
+  background-color: #0050aa;
+  border-color: #0050aa;
+}
+
+html[data-theme="dark"] .primary-button:hover {
+  background-color: #003f88;
+  border-color: #003f88;
+}
+
+html[data-theme="dark"] .download-button {
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+html[data-theme="dark"] .copy-button {
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+html[data-theme="dark"] .danger-button {
+  border-color: #ff8a80;
+  color: #ff8a80;
+}
+
+html[data-theme="dark"] #portMessage.port-message-error {
+  color: #fecaca;
+}
+
+html[data-theme="dark"] #portMessage.port-message-warning {
+  color: #fed7aa;
+}
+
+html[data-theme="dark"] #portMessage.port-message-ok {
+  color: #bbf7d0;
+}
+
+
+/* =========================================
+  12) ダークモード（モーダル＋設定画面）
+  ========================================= */
+
+/* ダークモード時のモーダル（共通） */
+html[data-theme="dark"] .app-dialog {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #eee;
+}
+
+html[data-theme="dark"] .dialog-description {
+  color: #ddd;
+}
+
+html[data-theme="dark"] .dialog-footer button {
+  background-color: #333;
+  border-color: #555;
+  color: #eee;
+}
+
+html[data-theme="dark"] .dialog-footer button:hover {
+  background-color: #444;
+  border-color: #777;
+}
+
+/* ダークモード：設定画面の左ナビ（見えない問題の対策） */
+html[data-theme="dark"] .settings-nav {
+  background: #8d8c8c;
+  border-right: 1px solid #727272;
+}
+
+html[data-theme="dark"] .settings-nav-item {
+  color: #e6e6e6;
+}
+
+html[data-theme="dark"] .settings-nav-item.active {
+  background: #727272;
+  outline: 1px solid #4a4a4a;
+}
+
+
+/* =========================================
+  13) カラーテーマ（追加：青/緑/黄/オレンジ/赤/ピンク）
+  ※ light/dark をベースに、差分だけ上書き
+   ========================================= */
+
+/* Blue */
+html[data-theme="blue"],
+html[data-theme="blue"] body {
+  background-color: #f2f7ff;
+}
+html[data-theme="blue"] .app-header {
+  background-color: #e8f1ff;
+  border-bottom-color: #9fc0f0;
+}
+html[data-theme="blue"] .tabs {
+  border-bottom-color: #9fc0f0;
+}
+html[data-theme="blue"] .tab-button.active {
+  border-bottom-color: #2563eb;
+}
+html[data-theme="blue"] .primary-button {
+  border-color: #2563eb;
+}
+html[data-theme="blue"] .generate-separator {
+  background-color: #9fc0f0;
+}
+
+/* Green */
+html[data-theme="green"],
+html[data-theme="green"] body {
+  background-color: #f2fbf5;
+}
+html[data-theme="green"] .app-header {
+  background-color: #e6f6ec;
+  border-bottom-color: #86d3a0;
+}
+html[data-theme="green"] .tabs {
+  border-bottom-color: #86d3a0;
+}
+html[data-theme="green"] .tab-button.active {
+  border-bottom-color: #16a34a;
+}
+html[data-theme="green"] .primary-button {
+  border-color: #16a34a;
+}
+html[data-theme="green"] .generate-separator {
+  background-color: #86d3a0;
+}
+
+/* Yellow */
+html[data-theme="yellow"],
+html[data-theme="yellow"] body {
+  background-color: #fffbea;
+}
+html[data-theme="yellow"] .app-header {
+  background-color: #fff3c4;
+  border-bottom-color: #facc15;
+}
+html[data-theme="yellow"] .tabs {
+  border-bottom-color: #facc15;
+}
+html[data-theme="yellow"] .tab-button.active {
+  border-bottom-color: #ca8a04;
+}
+html[data-theme="yellow"] .primary-button {
+  border-color: #ca8a04;
+}
+html[data-theme="yellow"] .generate-separator {
+  background-color: #facc15;
+}
+
+/* Orange */
+html[data-theme="orange"],
+html[data-theme="orange"] body {
+  background-color: #fff7ed;
+}
+html[data-theme="orange"] .app-header {
+  background-color: #ffedd5;
+  border-bottom-color: #fdba74;
+}
+html[data-theme="orange"] .tabs {
+  border-bottom-color: #fdba74;
+}
+html[data-theme="orange"] .tab-button.active {
+  border-bottom-color: #ea580c;
+}
+html[data-theme="orange"] .primary-button {
+  border-color: #ea580c;
+}
+html[data-theme="orange"] .generate-separator {
+  background-color: #fdba74;
+}
+
+/* Red */
+html[data-theme="red"],
+html[data-theme="red"] body {
+  background-color: #fff5f5;
+}
+html[data-theme="red"] .app-header {
+  background-color: #fee2e2;
+  border-bottom-color: #fca5a5;
+}
+html[data-theme="red"] .tabs {
+  border-bottom-color: #fca5a5;
+}
+html[data-theme="red"] .tab-button.active {
+  border-bottom-color: #dc2626;
+}
+html[data-theme="red"] .primary-button {
+  border-color: #dc2626;
+}
+html[data-theme="red"] .generate-separator {
+  background-color: #fca5a5;
+}
+
+/* Pink */
+html[data-theme="pink"],
+html[data-theme="pink"] body {
+  background-color: #fff1f6;
+}
+html[data-theme="pink"] .app-header {
+  background-color: #ffe4ee;
+  border-bottom-color: #f9a8d4;
+}
+html[data-theme="pink"] .tabs {
+  border-bottom-color: #f9a8d4;
+}
+html[data-theme="pink"] .tab-button.active {
+  border-bottom-color: #db2777;
+}
+html[data-theme="pink"] .primary-button {
+  border-color: #db2777;
+}
+html[data-theme="pink"] .generate-separator {
+  background-color: #f9a8d4;
+}
+
+/* =========================================
+  14) レスポンシブ対応
+  ========================================= */
+
+@media (max-width: 1100px) {
+  .output-split {
+    flex-direction: column;
+  }
+}

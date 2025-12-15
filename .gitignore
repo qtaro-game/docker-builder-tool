@@ -1,0 +1,24 @@
+# ===== Node / Electron =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ===== Build outputs =====
+dist/
+out/
+release/
+build/
+
+# ===== OS / editor =====
+.DS_Store
+Thumbs.db
+
+# ===== Your local artifacts =====
+/app.zip
+/docker-builder.log
+
+# バックアップ・作業フォルダ（名前ゆらぎに強い）
+/バージョン*/
+/一時ファイル*/
